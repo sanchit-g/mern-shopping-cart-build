@@ -1,7 +1,33 @@
 import './App.css';
-
+import { useState } from 'react';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Backdrop from './components/Backdrop';
+import SideDrawer from './components/SideDrawer';
 function App() {
-	return <div className='app'>Hello, World!</div>;
+	const [sideToggle, setSideToggle] = useState(false);
+
+	return (
+		<Router>
+			<Navbar click={() => setSideToggle(true)} />
+			<SideDrawer show={sideToggle} />
+			<Backdrop show={sideToggle} click={() => setSideToggle(false)} />
+			<main>
+				<Switch>
+					<Route exact path='/' component={HomeScreen}></Route>
+					<Route
+						exact
+						path='/product/:id'
+						component={ProductScreen}
+					></Route>
+					<Route exact path='/cart' component={CartScreen}></Route>
+				</Switch>
+			</main>
+		</Router>
+	);
 }
 
 export default App;
